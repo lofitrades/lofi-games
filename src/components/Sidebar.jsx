@@ -77,11 +77,11 @@ const Sidebar = () => {
                     >
                       <li>
                         <NavLink
-                          to="/games/Game1/game1"
+                          to="/games/penguin-run/PenguinRun"
                           onClick={toggleSidebar}
                           className={getLinkClass}
                         >
-                          Game 1
+                          Penguin Run
                         </NavLink>
                       </li>
                       <li>
@@ -158,8 +158,8 @@ const Sidebar = () => {
                   exit={{ opacity: 0, height: 0 }}
                 >
                   <li>
-                    <NavLink to="/games/Game1/Game1" className={getLinkClass}>
-                      Game 1
+                    <NavLink to="/games/penguin-run/PenguinRun" className={getLinkClass}>
+                      Penguin Run
                     </NavLink>
                   </li>
                   <li>

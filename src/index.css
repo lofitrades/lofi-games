@@ -197,3 +197,11 @@ body {
     padding: 30px;
   }
 }
+
+
+/* Underline active menu item */
+.menu-item.active,
+.sidebar a.active,
+.sidebar-desktop a.active {
+  text-decoration: underline;
+}
