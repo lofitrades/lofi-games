@@ -58,7 +58,7 @@ const PenguinRun = () => {
       const height = 35
       obstacle.style.width = `${width}px`;
       obstacle.style.height = `${height}px`;
-      obstacle.style.right = "-30px";
+      obstacle.style.right = "-60px";
       gameContainer.appendChild(obstacle);
       obstacles.push({
         element: obstacle,
@@ -179,24 +179,24 @@ const PenguinRun = () => {
   return (
     <div id="game-container">
       <div className="score">
-        Score: <span id="score">0</span>
+        score: <span id="score">0</span>
       </div>
       <div className="start-screen">
         <h1 className="h1">artic run</h1>
-        <p>Tap to start</p>
+        <p>tap to start</p>
       </div>
       <div id="ground"></div>
       <div id="penguin"></div>
       <div className="game-over">
         <div>
-          <h2 className="h2">Game Over!</h2>
+          <h2 className="h2">game over!</h2>
           <p>
-            Score: <span id="final-score">0</span>
+            score: <span id="final-score">0</span>
           </p>
           <p>
-            High Score: <span id="high-score">0</span>
+            high score: <span id="high-score">0</span>
           </p>
-          <p>Tap to play again</p>
+          <p>tap to play again</p>
         </div>
       </div>
     </div>
