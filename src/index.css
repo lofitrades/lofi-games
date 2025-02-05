@@ -8,7 +8,7 @@
 }
 
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Poppins", sans-serif;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -126,6 +126,7 @@ body {
 .dropdown {
   padding-left: 20px;
   margin-top: 5px;
+  margin-left: 20px;
 }
 
 .dropdown li {

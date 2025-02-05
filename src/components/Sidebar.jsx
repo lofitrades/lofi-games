@@ -77,7 +77,7 @@ const Sidebar = () => {
                     >
                       <li>
                         <NavLink
-                          to="/games/game1"
+                          to="/games/Game1/game1"
                           onClick={toggleSidebar}
                           className={getLinkClass}
                         >
@@ -86,7 +86,7 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <NavLink
-                          to="/games/game2"
+                          to="/games/Game-2/game2"
                           onClick={toggleSidebar}
                           className={getLinkClass}
                         >
@@ -95,7 +95,7 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <NavLink
-                          to="/games/game3"
+                          to="/games/Game3/game3"
                           onClick={toggleSidebar}
                           className={getLinkClass}
                         >
@@ -158,17 +158,17 @@ const Sidebar = () => {
                   exit={{ opacity: 0, height: 0 }}
                 >
                   <li>
-                    <NavLink to="/games/game1" className={getLinkClass}>
+                    <NavLink to="/games/Game1/Game1" className={getLinkClass}>
                       Game 1
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink to="/games/game2" className={getLinkClass}>
+                    <NavLink to="/games/Game-2/Game2" className={getLinkClass}>
                       Game 2
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink to="/games/game3" className={getLinkClass}>
+                    <NavLink to="/games/Game3/Game3" className={getLinkClass}>
                       Game 3
                     </NavLink>
                   </li>
