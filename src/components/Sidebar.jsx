@@ -1,9 +1,12 @@
 // src/components/Sidebar.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import ThemeToggle from "./ThemeToggle";
 import { FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
+
+// Dynamically import game pages
+const gamePages = import.meta.glob("/src/pages/games/*/*.{jsx,tsx}");
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,6 +28,27 @@ const Sidebar = () => {
   // Function for NavLink active class
   const getLinkClass = ({ isActive }) =>
     isActive ? "menu-link active" : "menu-link";
+
+  // Extract and sort the game names dynamically
+  const gameNames = Object.keys(gamePages)
+    .map((path) => {
+      const folderName = path.split("/").slice(-2, -1)[0]; // Extract folder name
+      const gameName = path.split("/").slice(-1)[0].replace(/\.[^.]+$/, ''); // Extract game name (without extension)
+    
+      return {
+        name: gameName,
+        path: path,
+        folder: folderName,
+      };
+    })
+    .sort((a, b) => a.name.localeCompare(b.name)); // Sort alphabetically by game name
+
+  // Close Games dropdown if the user navigates away
+  useEffect(() => {
+    if (!isGamesActive) {
+      setGamesDropdown(false); // Close the dropdown if the path is not related to "Games"
+    }
+  }, [location.pathname, isGamesActive]);
 
   return (
     <>
@@ -52,6 +76,15 @@ const Sidebar = () => {
             </div>
             <ul>
               <li>
+                <NavLink
+                  to="/"
+                  onClick={toggleSidebar}
+                  className={getLinkClass}
+                >
+                  Home
+                </NavLink>
+              </li>
+              <li>
                 <div
                   className={`menu-item ${isGamesActive ? "active" : ""}`}
                   onClick={toggleGamesDropdown}
@@ -75,33 +108,17 @@ const Sidebar = () => {
                       animate={{ opacity: 1, height: "auto" }}
                       exit={{ opacity: 0, height: 0 }}
                     >
-                      <li>
-                        <NavLink
-                          to="/games/penguin-run/PenguinRun"
-                          onClick={toggleSidebar}
-                          className={getLinkClass}
-                        >
-                          Penguin Run
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to="/games/Game-2/game2"
-                          onClick={toggleSidebar}
-                          className={getLinkClass}
-                        >
-                          Game 2
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to="/games/Game3/game3"
-                          onClick={toggleSidebar}
-                          className={getLinkClass}
-                        >
-                          Game 3
-                        </NavLink>
-                      </li>
+                      {gameNames.map(({ name, folder }) => (
+                        <li key={name}>
+                          <NavLink
+                            to={`/games/${encodeURIComponent(folder)}/${encodeURIComponent(name)}`}
+                            onClick={toggleSidebar}
+                            className={getLinkClass}
+                          >
+                            {name}
+                          </NavLink>
+                        </li>
+                      ))}
                     </motion.ul>
                   )}
                 </AnimatePresence>
@@ -136,6 +153,11 @@ const Sidebar = () => {
         </div>
         <ul>
           <li>
+            <NavLink to="/" className={getLinkClass}>
+              Home
+            </NavLink>
+          </li>
+          <li>
             <div
               className={`menu-item ${isGamesActive ? "active" : ""}`}
               onClick={toggleGamesDropdown}
@@ -157,21 +179,16 @@ const Sidebar = () => {
                   animate={{ opacity: 1, height: "auto" }}
                   exit={{ opacity: 0, height: 0 }}
                 >
-                  <li>
-                    <NavLink to="/games/penguin-run/PenguinRun" className={getLinkClass}>
-                      Penguin Run
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/games/Game-2/Game2" className={getLinkClass}>
-                      Game 2
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/games/Game3/Game3" className={getLinkClass}>
-                      Game 3
-                    </NavLink>
-                  </li>
+                  {gameNames.map(({ name, folder }) => (
+                    <li key={name}>
+                      <NavLink
+                        to={`/games/${encodeURIComponent(folder)}/${encodeURIComponent(name)}`}
+                        className={getLinkClass}
+                      >
+                        {name}
+                      </NavLink>
+                    </li>
+                  ))}
                 </motion.ul>
               )}
             </AnimatePresence>
