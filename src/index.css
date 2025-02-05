@@ -17,8 +17,8 @@ body {
   background-color: #fff;
   color: #333;
   --game-bg: #fff;
-  --element-color: #2c3e50;
-  --ground-color: #b0e0e6;
+  --element-color: #333;
+  --ground-color: #555;
 }
 
 .dark-theme {
@@ -39,7 +39,6 @@ body {
 /* Content area */
 .content {
   flex: 1;
-  padding: 20px;
   margin-left: 0;
   transition: margin-left 0.3s ease;
 }
@@ -80,7 +79,7 @@ body {
 
 /* Sidebar header styles */
 .sidebar-header {
-  margin-bottom: 20px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -165,7 +164,7 @@ body {
 
 /* Minimal page styling */
 .page {
-  padding: 20px;
+
   line-height: 1.6;
 }
 
@@ -200,7 +199,6 @@ body {
   }
   .content {
     margin-left: 300px;
-    padding: 30px;
   }
 }
 

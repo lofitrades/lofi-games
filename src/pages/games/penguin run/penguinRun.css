@@ -1,5 +1,6 @@
+/* src\pages\games\penguin run\penguinRun.css*/
 .game-container {
-    position: relative;
+    position: fixed;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
@@ -8,7 +9,7 @@
   
   .ground {
     position: absolute;
-    bottom: 0;
+    bottom: 60px;
     width: 100%;
     height: 60px;
     background-color: var(--ground-color);
@@ -26,7 +27,7 @@
   
   .obstacle {
     position: absolute;
-    bottom: 60px;
+    bottom: 120px;
     border-radius: 4px;
     background-color: var(--element-color);
     transition: background-color 0.3s ease;
