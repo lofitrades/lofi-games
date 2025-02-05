@@ -1,0 +1,2 @@
+- stop the time:
+-- closest to random time between 0.5 and 2. The score is a percentage based on accuracy
