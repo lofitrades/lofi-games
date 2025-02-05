@@ -2,13 +2,11 @@
 import React from "react";
 
 const Home = () => {
-    
   return (
-    
     <div className="page">
-      <img src="/lofi-games-logo.png"/>
-      <h1>lofi-games</h1>
-      <p>developed by @<u>juandiegocr</u></p>
+
+      <h1 className="h1Home">lofi-games</h1>
+      <p className="pHome">developed by @<u>juandiegocr</u></p>
     </div>
   );
 };

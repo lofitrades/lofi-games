@@ -1,4 +1,3 @@
-// src/components/Sidebar.jsx
 import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -18,6 +17,27 @@ const Sidebar = () => {
   // Mark "Games" as active if the URL starts with /games
   const isGamesActive = location.pathname.startsWith("/games");
 
+  // When on a game page, add a class to the body so that:
+  // - The content can be shifted when the sidebar is open.
+  // - The hamburger button is always visible.
+  useEffect(() => {
+    if (isGamesActive) {
+      document.body.classList.add("games-active");
+    } else {
+      document.body.classList.remove("games-active");
+    }
+  }, [isGamesActive]);
+
+  // When on a game page and the sidebar is open, add a class so that
+  // the content shifts to the right by the same width as the sidebar.
+  useEffect(() => {
+    if (isGamesActive && isOpen) {
+      document.body.classList.add("games-active-sidebar-opened");
+    } else {
+      document.body.classList.remove("games-active-sidebar-opened");
+    }
+  }, [isGamesActive, isOpen]);
+
   // Framer Motion variants for sidebar slide in/out
   const sidebarVariants = {
     open: { x: 0, transition: { stiffness: 20 } },
@@ -35,7 +55,10 @@ const Sidebar = () => {
   const gameNames = Object.keys(gamePages)
     .map((path) => {
       const folderName = path.split("/").slice(-2, -1)[0]; // Extract folder name
-      const gameName = path.split("/").slice(-1)[0].replace(/\.[^.]+$/, ""); // Extract game name without extension
+      const gameName = path
+        .split("/")
+        .slice(-1)[0]
+        .replace(/\.[^.]+$/, ""); // Extract game name without extension
       return { name: gameName, path: path, folder: folderName };
     })
     .sort((a, b) => a.name.localeCompare(b.name));
@@ -72,7 +95,7 @@ const Sidebar = () => {
   const handleTouchMove = (e) => {
     if (touchStartX !== null) {
       const currentX = e.touches[0].clientX;
-      if (touchStartX - currentX > 50) { // threshold in pixels
+      if (touchStartX - currentX > 50) {
         setIsOpen(false);
         setTouchStartX(null);
       }
@@ -85,7 +108,7 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* Mobile: Hamburger Button */}
+      {/* Hamburger Button (always visible) */}
       <div className="hamburger-button" onClick={toggleSidebar}>
         <FaBars />
       </div>
@@ -96,6 +119,7 @@ const Sidebar = () => {
           <motion.nav
             ref={sidebarRef}
             className="sidebar"
+            style={isGamesActive ? { display: "block" } : {}}
             initial="closed"
             animate="open"
             exit="closed"
@@ -148,7 +172,9 @@ const Sidebar = () => {
                       {gameNames.map(({ name, folder }) => (
                         <li key={name}>
                           <NavLink
-                            to={`/games/${encodeURIComponent(folder)}/${encodeURIComponent(name)}`}
+                            to={`/games/${encodeURIComponent(
+                              folder
+                            )}/${encodeURIComponent(name)}`}
                             onClick={toggleSidebar}
                             className={getLinkClass}
                           >
@@ -183,65 +209,73 @@ const Sidebar = () => {
         )}
       </AnimatePresence>
 
-      {/* Desktop Sidebar (Always Visible) */}
-      <motion.nav className="sidebar-desktop" initial={{ x: 0 }} animate={{ x: 0 }}>
-        <div className="sidebar-header desktop-header">
-          <ThemeToggle />
-        </div>
-        <ul>
-          <li>
-            <NavLink to="/" className={getLinkClass}>
-              Home
-            </NavLink>
-          </li>
-          <li>
-            <div
-              className={`menu-item ${isGamesActive ? "active" : ""}`}
-              onClick={toggleGamesDropdown}
-            >
-              <span className="menu-text">Games</span>
-              <FaChevronDown
-                className="dropdown-arrow"
-                style={{
-                  transform: gamesDropdown ? "rotate(180deg)" : "rotate(0deg)",
-                  transition: "transform 0.2s ease",
-                }}
-              />
-            </div>
-            <AnimatePresence>
-              {gamesDropdown && (
-                <motion.ul
-                  className="dropdown"
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                >
-                  {gameNames.map(({ name, folder }) => (
-                    <li key={name}>
-                      <NavLink
-                        to={`/games/${encodeURIComponent(folder)}/${encodeURIComponent(name)}`}
-                        className={getLinkClass}
-                      >
-                        {name}
-                      </NavLink>
-                    </li>
-                  ))}
-                </motion.ul>
-              )}
-            </AnimatePresence>
-          </li>
-          <li>
-            <NavLink to="/about" className={getLinkClass}>
-              About
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/contact" className={getLinkClass}>
-              Contact
-            </NavLink>
-          </li>
-        </ul>
-      </motion.nav>
+      {/* Desktop Sidebar (Always Visible only when not on game pages) */}
+      {!isGamesActive && (
+        <motion.nav
+          className="sidebar-desktop"
+          initial={{ x: 0 }}
+          animate={{ x: 0 }}
+        >
+          <div className="sidebar-header desktop-header">
+            <ThemeToggle />
+          </div>
+          <ul>
+            <li>
+              <NavLink to="/" className={getLinkClass}>
+                Home
+              </NavLink>
+            </li>
+            <li>
+              <div
+                className={`menu-item ${isGamesActive ? "active" : ""}`}
+                onClick={toggleGamesDropdown}
+              >
+                <span className="menu-text">Games</span>
+                <FaChevronDown
+                  className="dropdown-arrow"
+                  style={{
+                    transform: gamesDropdown ? "rotate(180deg)" : "rotate(0deg)",
+                    transition: "transform 0.2s ease",
+                  }}
+                />
+              </div>
+              <AnimatePresence>
+                {gamesDropdown && (
+                  <motion.ul
+                    className="dropdown"
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                  >
+                    {gameNames.map(({ name, folder }) => (
+                      <li key={name}>
+                        <NavLink
+                          to={`/games/${encodeURIComponent(
+                            folder
+                          )}/${encodeURIComponent(name)}`}
+                          className={getLinkClass}
+                        >
+                          {name}
+                        </NavLink>
+                      </li>
+                    ))}
+                  </motion.ul>
+                )}
+              </AnimatePresence>
+            </li>
+            <li>
+              <NavLink to="/about" className={getLinkClass}>
+                About
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/contact" className={getLinkClass}>
+                Contact
+              </NavLink>
+            </li>
+          </ul>
+        </motion.nav>
+      )}
     </>
   );
 };

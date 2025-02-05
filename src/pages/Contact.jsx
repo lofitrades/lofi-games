@@ -4,8 +4,8 @@ import React from "react";
 const Contact = () => {
   return (
     <div className="page">
-      <h1>Contact</h1>
-      <p>Get in touch with us!</p>
+      <h1 className="h1Home">Contact</h1>
+      <p className="pHome">Get in touch with us!</p>
     </div>
   );
 };

@@ -4,8 +4,8 @@ import React from "react";
 const About = () => {
   return (
     <div className="page">
-      <h1>About</h1>
-      <p>This is the About page of Lofi Games.</p>
+      <h1 className="h1Home">About</h1>
+      <p className="pHome">This is the About page of Lofi Games.</p>
     </div>
   );
 };

@@ -12,6 +12,55 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+h1 {
+  font-size: 4rem;
+  line-height: 1.3; /* Adjust to desired spacing */
+  width: 100%;
+}
+
+.h1Home {
+  padding-left: 40px;
+  padding-top: 40px;
+  font-size: 4rem;
+  line-height: 1.3; /* Adjust to desired spacing */
+  width: 100%;
+}
+
+h2 {
+  font-size: 4rem;
+}
+h3 {
+  padding-left: 40px;
+  padding-top: 20px;
+  font-size: 3rem;
+}
+h4 {
+  padding-left: 40px;
+  padding-top: 10px;
+  font-size: 2rem;
+}
+h5 {
+  padding-left: 0px;
+  padding-top: 5px;
+  font-size: 2rem;
+  text-align: center;
+
+}
+
+p {
+  padding-top: 10px;
+  font-size: 1.4rem;
+}
+.pGames {
+  padding-top: 10px;
+  font-size: 1.2rem;
+}
+.pHome {
+  padding-top: 10px;
+  padding-left: 40px;
+  font-size: 1.2rem;
+}
+
 /* Overall site theme */
 .light-theme {
   background-color: #fff;
@@ -65,7 +114,7 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  width: 260px;
+  width: 300px;
   height: 100%;
   padding: 20px;
   overflow-y: auto;
@@ -85,7 +134,7 @@ body {
   justify-content: space-between;
 }
 
-/* Remove list bullets and default padding */
+
 .sidebar ul,
 .sidebar-desktop ul {
   list-style: none;
@@ -178,7 +227,7 @@ body {
   }
   .sidebar-desktop {
     display: block;
-    width: 260px;
+    width: 300px;
     height: 100vh;
     position: fixed;
     top: 0;
@@ -187,7 +236,7 @@ body {
     overflow-y: auto;
   }
   .content {
-    margin-left: 260px;
+    margin-left: 300px;
   }
 }
 
@@ -201,6 +250,13 @@ body {
     margin-left: 300px;
   }
 }
+* {
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+}
+
 
 
 /* Underline active menu item */
@@ -208,4 +264,36 @@ body {
 .sidebar a.active,
 .sidebar-desktop a.active {
   text-decoration: underline;
+}
+
+/* When a game page is active, override the left margin of the content */
+body.games-active .content {
+  margin-left: 0 !important;
+}
+
+/* Force the hamburger button to display on game pages */
+body.games-active .hamburger-button {
+  display: block !important;
+}
+
+/* When on a game page with the sidebar open, shift the content */
+body.games-active-sidebar-opened .content {
+  margin-left: 300px !important;
+}
+
+/* Ensure the hamburger button always shows when a game page is active */
+body.games-active .hamburger-button {
+  display: block !important;
+}
+
+/* When a game page is active and the sidebar is open,
+   shift the content by the same width as the opened sidebar.
+   (Assuming the sidebar width is 260px) */
+body.games-active-sidebar-opened .content {
+  margin-left: 300px !important;
+}
+
+/* Override mobile sidebar hiding on larger screens when on a game page */
+body.games-active .sidebar {
+  display: block !important;
 }

@@ -1,0 +1,87 @@
+/* Reset and mobile-friendly settings */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  touch-action: manipulation;
+}
+
+/* The game container fills the entire viewport */
+#game-container {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background: var(--game-bg);
+}
+
+/* Ground using the theme’s ground color */
+#ground {
+  position: absolute;
+  bottom: 60px;
+  width: 100%;
+  height: 60px;
+  background: var(--ground-color);
+}
+
+/* Penguin uses the theme’s element color */
+#penguin {
+  position: absolute;
+  bottom: 120px;
+  left: 20%;
+  width: 50px;
+  height: 50px;
+  background: var(--element-color);
+  border-radius: 50%;
+}
+
+/* Obstacles also use the theme’s element color */
+.obstacle {
+  position: absolute;
+  bottom: 120px;
+  background: var(--element-color);
+  border-radius: 0px;
+}
+
+/* Score text styled with the theme’s element color */
+.score {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;
+  color: var(--element-color);
+}
+
+/* Overlays for the start screen and game over; background adapts based on theme */
+.game-over,
+.start-screen {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--overlay-bg);
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  display: none;
+}
+
+/* Show the start screen by default */
+.start-screen {
+  display: block;
+}
+
+button {
+  padding: 12px 24px;
+  margin-top: 10px;
+  background: #3498db;
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
