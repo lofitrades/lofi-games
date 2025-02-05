@@ -1,3 +1,5 @@
+public/
+ └── favicon.ico
 src/
  ├── components/
  │    ├── Sidebar.jsx
@@ -9,9 +11,8 @@ src/
  │    ├── About.jsx
  │    ├── Contact.jsx
  │    └── games/
- │         ├── Game1.jsx
- │         ├── Game2.jsx
- │         └── Game3.jsx
+ │         ├── penguin run
+ │              ├── penguin run.jsx
  ├── App.jsx
  ├── main.jsx
  └── index.css

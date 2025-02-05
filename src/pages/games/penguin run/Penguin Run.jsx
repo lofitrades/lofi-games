@@ -1,17 +1,13 @@
-// src/pages/PenguinRun.jsx
+// src/pages/Game2.jsx
 import React from "react";
-import { useParams } from "react-router-dom";
 
-const GamePage = () => {
-  const { gameId } = useParams();  // Get the gameId from the URL
-
+const Game2 = () => {
   return (
     <div className="page">
-      <h1>{gameId} penguin run</h1>
-      <p>Tap to start</p>
-      {/* You can dynamically load different game components here if needed */}
+      <h1>penguin</h1>
+      <p>Details about Game 2.</p>
     </div>
   );
 };
 
-export default GamePage;
+export default Game2;

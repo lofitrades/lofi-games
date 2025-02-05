@@ -1,5 +1,5 @@
 // src/components/Sidebar.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import ThemeToggle from "./ThemeToggle";
@@ -11,7 +11,9 @@ const gamePages = import.meta.glob("/src/pages/games/*/*.{jsx,tsx}");
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [gamesDropdown, setGamesDropdown] = useState(false);
+  const [touchStartX, setTouchStartX] = useState(null);
   const location = useLocation();
+  const sidebarRef = useRef(null);
 
   // Mark "Games" as active if the URL starts with /games
   const isGamesActive = location.pathname.startsWith("/games");
@@ -33,22 +35,53 @@ const Sidebar = () => {
   const gameNames = Object.keys(gamePages)
     .map((path) => {
       const folderName = path.split("/").slice(-2, -1)[0]; // Extract folder name
-      const gameName = path.split("/").slice(-1)[0].replace(/\.[^.]+$/, ''); // Extract game name (without extension)
-    
-      return {
-        name: gameName,
-        path: path,
-        folder: folderName,
-      };
+      const gameName = path.split("/").slice(-1)[0].replace(/\.[^.]+$/, ""); // Extract game name without extension
+      return { name: gameName, path: path, folder: folderName };
     })
-    .sort((a, b) => a.name.localeCompare(b.name)); // Sort alphabetically by game name
+    .sort((a, b) => a.name.localeCompare(b.name));
 
   // Close Games dropdown if the user navigates away
   useEffect(() => {
     if (!isGamesActive) {
-      setGamesDropdown(false); // Close the dropdown if the path is not related to "Games"
+      setGamesDropdown(false);
     }
   }, [location.pathname, isGamesActive]);
+
+  // Click Outside: Close sidebar when clicking outside the sidebar element
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("touchstart", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, [isOpen]);
+
+  // Swipe Left: Detect left swipe to close sidebar
+  const handleTouchStart = (e) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    if (touchStartX !== null) {
+      const currentX = e.touches[0].clientX;
+      if (touchStartX - currentX > 50) { // threshold in pixels
+        setIsOpen(false);
+        setTouchStartX(null);
+      }
+    }
+  };
+
+  const handleTouchEnd = () => {
+    setTouchStartX(null);
+  };
 
   return (
     <>
@@ -61,13 +94,17 @@ const Sidebar = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.nav
+            ref={sidebarRef}
             className="sidebar"
             initial="closed"
             animate="open"
             exit="closed"
             variants={sidebarVariants}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
           >
-            {/* Sidebar header with fixed order: ThemeToggle on left, Close button on right */}
+            {/* Sidebar header with ThemeToggle and Close button */}
             <div className="sidebar-header mobile-header">
               <ThemeToggle />
               <div className="close-button" onClick={toggleSidebar}>
