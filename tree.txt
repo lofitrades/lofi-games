@@ -1,0 +1,17 @@
+src/
+ ├── components/
+ │    ├── Sidebar.jsx
+ │    └── ThemeToggle.jsx
+ ├── context/
+ │    └── ThemeContext.jsx
+ ├── pages/
+ │    ├── Home.jsx
+ │    ├── About.jsx
+ │    ├── Contact.jsx
+ │    └── games/
+ │         ├── Game1.jsx
+ │         ├── Game2.jsx
+ │         └── Game3.jsx
+ ├── App.jsx
+ ├── main.jsx
+ └── index.css

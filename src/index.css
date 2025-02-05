@@ -1,68 +1,198 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+/* src/index.css */
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+/* Reset and basic styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  margin: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Overall site theme */
+.light-theme {
+  background-color: #fff;
+  color: #333;
+}
+
+.dark-theme {
+  background-color: #333;
+  color: #fff;
+}
+
+/* App container */
+.app-container {
   display: flex;
-  place-items: center;
-  min-width: 320px;
+  flex-direction: column;
   min-height: 100vh;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* Content area */
+.content {
+  flex: 1;
+  padding: 20px;
+  margin-left: 0;
+  transition: margin-left 0.3s ease;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+/* Hamburger button (mobile only) */
+.hamburger-button {
+  display: block;
+  padding: 15px;
+  font-size: 1.5rem;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+/* Sidebar – always dark */
+.sidebar,
+.sidebar-desktop {
+  background-color: #333;
+  color: #fff;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Mobile Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 260px;
+  height: 100%;
+  padding: 20px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+/* Desktop Sidebar: hidden on mobile */
+.sidebar-desktop {
+  display: none;
+}
+
+/* Sidebar header styles */
+.sidebar-header {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Remove list bullets and default padding */
+.sidebar ul,
+.sidebar-desktop ul {
+  list-style: none;
+  padding: 0;
+}
+
+/* Menu item styling */
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.1rem;
+  padding: 12px 10px;
+  cursor: pointer;
+  border-bottom: 1px solid transparent;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.menu-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Plain text links for menu items */
+.menu-link {
+  display: block;
+  padding: 12px 10px;
+  font-size: 1.1rem;
+  color: inherit;
+  text-decoration: none;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.menu-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Dropdown arrow styling */
+.dropdown-arrow {
+  font-size: 1rem;
+}
+
+/* Dropdown sub-menu styling */
+.dropdown {
+  padding-left: 20px;
+  margin-top: 5px;
+}
+
+.dropdown li {
+  margin: 8px 0;
+}
+
+.dropdown li a {
+  font-size: 1rem;
+  color: inherit;
+  text-decoration: none;
+  display: block;
+  padding: 10px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.dropdown li a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Close button styling */
+.close-button {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Theme toggle switch styling */
+.theme-toggle-switch {
+  cursor: pointer;
+}
+
+/* Minimal page styling */
+.page {
+  padding: 20px;
+  line-height: 1.6;
+}
+
+/* Responsive adjustments for larger screens */
+@media (min-width: 768px) {
+  .hamburger-button {
+    display: none;
   }
-  a:hover {
-    color: #747bff;
+  .sidebar {
+    display: none;
   }
-  button {
-    background-color: #f9f9f9;
+  .sidebar-desktop {
+    display: block;
+    width: 260px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    overflow-y: auto;
+  }
+  .content {
+    margin-left: 260px;
+  }
+}
+
+/* Additional media queries for extra-large screens */
+@media (min-width: 1200px) {
+  .sidebar-desktop {
+    width: 300px;
+    padding: 25px;
+  }
+  .content {
+    margin-left: 300px;
+    padding: 30px;
   }
 }
