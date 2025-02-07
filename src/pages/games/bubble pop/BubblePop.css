@@ -1,0 +1,156 @@
+/* Base styles */
+.game-container {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: var(--game-bg);
+  }
+  
+  /* Spikes using pseudo-elements */
+  .game-container::before,
+  .game-container::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 20px;
+    z-index: 2;
+    background-repeat: repeat-x;
+  }
+  
+  .game-container::before {
+    position: fixed;
+    bottom: 0;
+    background-image: linear-gradient(
+      to right,
+      var(--element-color) 0%,
+      transparent 0%,
+      transparent 0%,
+      var(--element-color) 0%
+    );
+    mask-image: url("data:image/svg+xml;charset=UTF-8,<svg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'><path d='M0 20 L10 0 L20 20' fill='black'/></svg>");
+  }
+  
+  .game-container::after {
+    position: fixed;
+    top: 0;
+    background-image: linear-gradient(
+      to right,
+      var(--element-color) 0%,
+      transparent 0%,
+      transparent 0%,
+      var(--element-color) 0%
+    );
+    mask-image: url("data:image/svg+xml;charset=UTF-8,<svg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'><path d='M0 0 L10 20 L20 0' fill='black'/></svg>");
+  }
+  
+  /* Bubbles */
+  .bubble {
+    position: absolute;
+    border-radius: 50%;
+    background-color: #333;
+    cursor: pointer;
+    transition: transform 0.1s;
+    will-change: transform;
+  }
+  
+  .bubble.popped {
+    animation: pop 0.2s forwards;
+  }
+  
+  .bubble.crashed {
+    background-color: var(--danger-color);
+    animation: pop 0.2s forwards;
+  }
+  
+  @keyframes pop {
+    0% { transform: scale(1); }
+    100% { transform: scale(2); opacity: 0; }
+  }
+  
+  /* Score and lives */
+  .score-display {
+    position: fixed;
+    bottom: 50%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    font-size: 4rem;
+    color: var(--element-color);
+    z-index: 2;
+  }
+  
+  .lives-display {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    color: var(--danger-color);
+    z-index: 2;
+  }
+  
+  /* Game over screen */
+  .game-over-screen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background: var(--game-bg);
+    padding: 2rem;
+    border-radius: 1rem;
+    border: 2px solid var(--element-color);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .game-over-screen.visible {
+    opacity: 1;
+  }
+  
+  .play-again,
+  .start-button {
+    padding: 1rem 2rem;
+    background-color: var(--element-color);
+    color: var(--game-bg);
+    border: none;
+    border-radius: 2rem;
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, 50%);
+  }
+  
+  /* Score pop animation */
+  .score-pop {
+    position: absolute;
+    color: var(--element-color);
+    font-size: 1.5rem;
+    animation: floatUp 0.5s ease-out;
+    z-index: 3;
+  }
+  
+  @keyframes floatUp {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-50px); opacity: 0; }
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .score-display {
+      font-size: 3rem;
+    }
+    
+    .lives-display {
+      font-size: 1.2rem;
+    }
+    
+    .play-again,
+    .start-button {
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+    }
+  }

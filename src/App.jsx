@@ -6,7 +6,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Game1 from "./pages/games/artic run/artic run";
-import Game2 from "./pages/games/Game-2/game 2";
+import Game2 from "./pages/games/bubble pop/bubble pop";
 import MusicPlayer from "./components/MusicPlayer";
 
 
@@ -76,7 +76,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/games/artic run/artic run" element={<Game1 />} />
-            <Route path="/games/Game-2/game 2" element={<Game2 />} />
+            <Route path="/games/bubble pop/bubble pop" element={<Game2 />} />
           </Routes>
         </div>
       </div>
