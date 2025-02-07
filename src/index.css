@@ -68,6 +68,7 @@ p {
   --game-bg: #fff;
   --element-color: #333;
   --ground-color: #555;
+
 }
 
 .dark-theme {
@@ -296,4 +297,181 @@ body.games-active-sidebar-opened .content {
 /* Override mobile sidebar hiding on larger screens when on a game page */
 body.games-active .sidebar {
   display: block !important;
+}
+
+
+/* Music Player Styles */
+.music-player-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.4s ease-in-out;
+  background: var(--game-bg);
+  cursor: pointer;
+  z-index: 9999;
+}
+
+.music-player-container:hover {
+  width: 220px;
+  height: 120px;
+  background: var(--ground-color);
+  padding: 12px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 16px;
+}
+
+.music-player-container:not(:hover) {
+  transition: all 0.4s ease-in-out;
+}
+
+.song-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: transform 0.5s ease-in-out;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #fff;
+}
+
+.music-player-container:hover .song-image {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin-right: 12px;
+  transform: scale(1.1);
+}
+
+.music-player-container:not(:hover) .song-image {
+  transform: scale(1);
+  align-items: center;
+  align-self: center;
+  align-content: center;
+  transition: transform 0.5s ease-in-out;
+}
+
+.dot-lottie-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: red;
+  scale: 300%;
+}
+
+.music-player-container:hover .dot-lottie-container {
+  display: none;
+}
+
+.song-title {
+  display: inline-block;
+  font-size: 16px;
+  color: var(--element-color);
+  font-weight: bold;
+  white-space: nowrap;
+  position: relative;
+  animation: scrollText 15s linear infinite;
+  margin-right: 30px;
+  padding-right: 30px;
+}
+
+@keyframes scrollText {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+.music-player-table td {
+  position: relative;
+  overflow: hidden; /* Ensures the text doesn't scroll beyond this */
+  width: 100%;
+  max-width: 150px; /* Adjust based on your design */
+}
+
+.music-player-table td {
+  padding-right: 50px;
+}
+
+.music-player-container:hover .song-title {
+  display: block;
+  margin-bottom: 5px;
+  animation: scrollText 8s linear infinite;
+}
+
+.music-player-controls {
+  display: none;
+  flex-direction: row;
+  gap: 8px;
+  justify-content: left;
+  align-items: left;
+  left: 0px;
+}
+
+.music-player-container:hover .music-player-controls {
+  display: flex;
+  align-items: left;
+}
+
+.play-button, .next-button {
+  background: var(--element-color);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--game-bg);
+  transition: background 0.3s ease;
+}
+
+.play-button:hover, .next-button:hover {
+  background: var(--game-bg);
+}
+
+@media (min-width: 768px) {
+  .music-player-container {
+    width: 80px;
+    height: 80px;
+  }
+
+  .music-player-container:hover {
+    width: 250px;
+    height: 130px;
+  }
+}
+
+.play-toggle-button {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  border-radius: 20%;
+  width: 50%;
+  height: 50%;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+  text-align: center;
+  margin: 0px;
+}
+
+.music-player-container:hover .play-toggle-button {
+  display: none;
+}
+
+.play-toggle-button:hover {
+  background: rgba(0, 0, 0, 0.7);
 }

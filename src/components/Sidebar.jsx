@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import ThemeToggle from "./ThemeToggle";
 import { FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
 
+
 // Dynamically import game pages
 const gamePages = import.meta.glob("/src/pages/games/*/*.{jsx,tsx}");
 
@@ -274,6 +275,8 @@ const Sidebar = () => {
               </NavLink>
             </li>
           </ul>
+
+
         </motion.nav>
       )}
     </>

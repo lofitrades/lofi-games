@@ -7,6 +7,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Game1 from "./pages/games/artic run/artic run";
 import Game2 from "./pages/games/Game-2/game 2";
+import MusicPlayer from "./components/MusicPlayer";
 
 function App() {
   useEffect(() => {
@@ -62,9 +63,12 @@ function App() {
   }, []);
 
   return (
+
     <Router basename="/lofi-games">
+      
       <div className="app-container">
         <Sidebar />
+        <MusicPlayer /> {/* Global Music Player */}
         <div className="content">
           <Routes>
             <Route path="/" element={<Home />} />

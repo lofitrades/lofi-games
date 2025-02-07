@@ -15,7 +15,12 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "@lottiefiles/dotlottie-react": "^0.12.3",
+    "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
+    "dropbox": "^10.34.0",
     "framer-motion": "^12.1.0",
+    "howler": "^2.2.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-icons": "^5.4.0",
