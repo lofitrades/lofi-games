@@ -313,7 +313,7 @@ body.games-active .sidebar {
   border-radius: 14px;
   overflow: hidden;
   /* Use a slightly longer transition when unhovering */
-  transition: all 0.4s ease-out;
+  transition: all 0.3s ease-out;
   background: var(--game-bg);
   z-index: 9999;
 
@@ -321,7 +321,7 @@ body.games-active .sidebar {
 }
 
 .music-player-container:hover {
-  width: 220px;
+  width: 300px;
   height: 120px;
   background: var(--ground-color);
   padding-left: 15px;
@@ -330,7 +330,9 @@ body.games-active .sidebar {
   justify-content: space-between;
   border-radius: 16px;
   /* Faster transition on hover */
-  transition: all 0.4s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  
 }
 
 .song-image {
@@ -374,10 +376,12 @@ body.games-active .sidebar {
   color: #fff;
   font-weight: bold;
   white-space: nowrap;
-  padding-right: 20px; /* 20px right padding */
-  /* Delay the start slightly to mimic Spotify’s behavior */
+
+  /* No animation by default */
+  
+}
+.song-title.overflow {
   animation: marquee 8s linear infinite 1s;
-  padding-bottom: 0px;
 }
 
 /* Marquee keyframes: animate from full width to off-screen */
@@ -390,25 +394,29 @@ body.games-active .sidebar {
   }
 }
 
-/* Container for the song title ensuring overflow is hidden */
+/* The container for the title should hide overflow */
 .song-title-wrapper {
-  width: 85%;
+  width: 100%;
   overflow: hidden;
-  /* Optionally, you can set a fixed width (or max-width) if needed */
+  text-align: left;
 }
-
 
 /* Adjust table cell to allow wrapping (remove the hidden overflow) */
 .music-player-table td {
   position: relative;
-  width: 100%;
-  max-width: 200px;   /* Adjust based on your design if needed */
-  padding-right: 50px;
+  padding-right: 20px;
+  max-width: 250px;
+
 }
+
+
 
 .music-player-container:hover .song-title {
   display: block;
   margin-bottom: 5px;
+  align-self: left;
+  padding: 0px;
+  width: 250px;
   /* No scroll animation since text now wraps naturally */
 }
 
@@ -455,7 +463,7 @@ body.games-active .sidebar {
     height: 80px;
   }
   .music-player-container:hover {
-    width: 250px;
+    width: 350px;
     height: 130px;
   }
 }
@@ -485,4 +493,13 @@ body.games-active .sidebar {
 
 .play-toggle-button:hover {
   background: rgba(0, 0, 0, 0.7);
+}
+
+
+.pPlayer {
+  color: #fff;
+  font-size: 12px;
+  text-align: left;
+  padding: 0px;
+
 }

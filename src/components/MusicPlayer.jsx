@@ -14,6 +14,8 @@ const MusicPlayer = () => {
   const [playedSongs, setPlayedSongs] = useState([]);
   const [defaultImageUrl, setDefaultImageUrl] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [isOverflow, setIsOverflow] = useState(false);
+  const titleRef = useRef(null);
 
   useEffect(() => {
     async function loadSongs() {
@@ -30,14 +32,12 @@ const MusicPlayer = () => {
         console.error("Error loading songs or default image:", error);
       }
     }
-
     loadSongs();
   }, []);
 
   const getDefaultImage = async () => {
     try {
-      const defaultImage = await getSongs("/lofi-games/default-image.png");
-      return defaultImage[0].url;
+      return "/lofi-games/default-image.png";
     } catch (error) {
       console.error("Error fetching default image:", error);
       return "";
@@ -46,19 +46,16 @@ const MusicPlayer = () => {
 
   const playSong = (song) => {
     if (!song) return;
-
     if (globalPlayer) {
       globalPlayer.stop();
       globalPlayer = null;
     }
-
     globalPlayer = new Howl({
       src: [song.url],
       html5: true,
       volume: 0.7,
       onend: playNextSong,
     });
-
     setCurrentSong(song);
     globalPlayer.play();
     setIsPlaying(true);
@@ -80,26 +77,49 @@ const MusicPlayer = () => {
   };
 
   const playNextSong = () => {
-    if (!songs.length) return;
+    if (songs.length === 0) return;
 
-    if (playedSongs.length === songs.length - 1) {
+    let nextSong;
+    
+    if (playedSongs.length >= songs.length) {
+      // Reset playlist when all songs played
       const shuffled = [...songs].sort(() => Math.random() - 0.5);
       setSongs(shuffled);
       setPlayedSongs([]);
+      nextSong = shuffled[0];
+    } else {
+      // Find available unplayed songs
+      const availableSongs = songs.filter(song => 
+        !playedSongs.includes(song.name)
+      );
+      
+      if (availableSongs.length === 0) {
+        // Fallback shuffle if somehow no available songs
+        const shuffled = [...songs].sort(() => Math.random() - 0.5);
+        setSongs(shuffled);
+        setPlayedSongs([]);
+        nextSong = shuffled[0];
+      } else {
+        // Select random song from available
+        nextSong = availableSongs[
+          Math.floor(Math.random() * availableSongs.length)
+        ];
+      }
     }
 
-    let nextIndex;
-    do {
-      nextIndex = Math.floor(Math.random() * songs.length);
-    } while (playedSongs.includes(songs[nextIndex].name));
-
-    setPlayedSongs((prevSongs) => [...prevSongs, songs[nextIndex].name]);
-    playSong(songs[nextIndex]);
+    setPlayedSongs(prev => [...prev, nextSong.name]);
+    playSong(nextSong);
   };
 
   const removeExtension = (filename) => {
     return filename.replace(/\.[^/.]+$/, "");
   };
+
+  useEffect(() => {
+    if (titleRef.current) {
+      setIsOverflow(titleRef.current.scrollWidth > titleRef.current.clientWidth);
+    }
+  }, [currentSong, isHovered]);
 
   useEffect(() => {
     const handleUserInteraction = () => {
@@ -112,12 +132,10 @@ const MusicPlayer = () => {
       window.removeEventListener("scroll", handleUserInteraction);
       window.removeEventListener("touchstart", handleUserInteraction);
     };
-
     window.addEventListener("click", handleUserInteraction);
     window.addEventListener("keydown", handleUserInteraction);
     window.addEventListener("scroll", handleUserInteraction);
     window.addEventListener("touchstart", handleUserInteraction);
-
     return () => {
       window.removeEventListener("click", handleUserInteraction);
       window.removeEventListener("keydown", handleUserInteraction);
@@ -127,45 +145,72 @@ const MusicPlayer = () => {
   }, [songs]);
 
   return (
-    <div
+    <div 
       className="music-player-container"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
-        backgroundImage: isHovered && currentSong ? `linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url(${currentSong.imageUrl})` : "none",
+        backgroundImage:
+          isHovered && currentSong
+            ? `linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url(${currentSong.imageUrl})`
+            : "none",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-        <img
+      <img
         src={currentSong ? currentSong.imageUrl : "/lofi-games/default-image.png"}
         alt="Song"
         className="song-image"
-        />
+      />
       {!isHovered && (
         <button onClick={togglePlay} className="play-toggle-button">
           {isPlaying ? "❚❚" : "▶"}
         </button>
       )}
       {isHovered && (
-        <table className="music-player-table">
+        <table className="music-player-table" onClick={togglePlay}>
           <tbody>
             <tr>
               <td>
                 <div className="song-title-wrapper">
-                  <p className="song-title">
-                    {currentSong ? removeExtension(currentSong.name) : "No song playing"}
+                  <p
+                    ref={titleRef}
+                    className={`song-title ${isOverflow ? "overflow" : ""}`}
+                  >
+                    {currentSong
+                      ? removeExtension(currentSong.name)
+                      : "No song playing"}
                   </p>
                 </div>
               </td>
             </tr>
             <tr>
+                <td>
+                    <p className="pPlayer">lofi-games</p>
+                </td>
+            </tr>
+            <tr>
               <td>
                 <div className="music-player-controls">
-                  <button onClick={togglePlay} disabled={songs.length === 0} className="play-button">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      togglePlay();
+                    }}
+                    disabled={songs.length === 0}
+                    className="play-button"
+                  >
                     {isPlaying ? "❚❚" : "▶"}
-                    </button>
-                  <button onClick={playNextSong} disabled={songs.length === 0} className="next-button">
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      playNextSong();
+                    }}
+                    disabled={songs.length === 0}
+                    className="next-button"
+                  >
                     ▶▶
                   </button>
                 </div>
