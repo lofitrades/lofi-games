@@ -132,16 +132,14 @@ const MusicPlayer = () => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
-        backgroundImage: isHovered && currentSong ? `linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url(${currentSong.imageUrl})` : "none",
+        backgroundImage: isHovered && currentSong ? `linear-gradient(rgba(0, 0, 0, 0.90), rgba(0, 0, 0, 0.75)), url(${currentSong.imageUrl})` : "none",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-        <img
-        src={currentSong ? currentSong.imageUrl : "/default-image.png"}
-        alt="Song"
-        className="song-image"
-        />
+
+        <img src={currentSong ? currentSong.imageUrl : "/lofi-games/default-image.png"} alt="Song" className="song-image" />
+
       {!isHovered && (
         <button onClick={togglePlay} className="play-toggle-button">
           {isPlaying ? "❚❚" : "▶"}

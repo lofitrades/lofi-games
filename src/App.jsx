@@ -9,6 +9,7 @@ import Game1 from "./pages/games/artic run/artic run";
 import Game2 from "./pages/games/Game-2/game 2";
 import MusicPlayer from "./components/MusicPlayer";
 
+
 function App() {
   useEffect(() => {
     // Disable text selection
