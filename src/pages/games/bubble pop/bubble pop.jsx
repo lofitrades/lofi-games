@@ -12,13 +12,11 @@ const BubblePop = () => {
   const lastPopPosition = useRef({ x: 0, y: 0 });
   const animationFrameId = useRef(null);
 
-  // Load high score from localStorage
   useEffect(() => {
     const savedScore = localStorage.getItem('bubbleHighScore') || 0;
     setHighestScore(parseInt(savedScore));
   }, []);
 
-  // Game loop
   const gameLoop = useCallback(() => {
     if (!gameActive || !gameContainerRef.current) return;
 
@@ -26,54 +24,39 @@ const BubblePop = () => {
     const containerRect = container.getBoundingClientRect();
     const spikeHeight = 20;
 
-    // Update bubble positions
-    bubblesRef.current = bubblesRef.current.filter(bubble => {
-      const newX = bubble.x + bubble.dx;
-      const newY = bubble.y + bubble.dy;
+    bubblesRef.current.forEach((bubble, index) => {
+      let newX = bubble.x + bubble.dx;
+      let newY = bubble.y + bubble.dy;
 
-      // Check spike collision
-      if (newY < spikeHeight || newY > containerRect.height - bubble.size - spikeHeight) {
-        handleSpikeCollision(bubble);
-        return false;
-      }
-
-      // Wall bounce
+      // Horizontal boundaries
       if (newX < 0 || newX > containerRect.width - bubble.size) {
         bubble.dx *= -1;
-        return true;
+        newX = Math.max(0, Math.min(newX, containerRect.width - bubble.size));
+      }
+
+      // Vertical collision
+      if (newY < spikeHeight || newY > containerRect.height - bubble.size - spikeHeight) {
+        handleSpikeCollision(bubble);
+        return;
       }
 
       // Update position
-      bubble.element.style.transform = `translate(${newX}px, ${newY}px)`;
       bubble.x = newX;
       bubble.y = newY;
-      return true;
+      bubble.element.style.transform = `translate(${newX}px, ${newY}px)`;
     });
 
     animationFrameId.current = requestAnimationFrame(gameLoop);
   }, [gameActive]);
 
-  // Handle spike collision
-  const handleSpikeCollision = (bubble) => {
-    bubble.element.classList.add('crashed');
-    setTimeout(() => bubble.element.remove(), 200);
-    setLives(prev => {
-      const newLives = prev - 1;
-      if (newLives <= 0) endGame();
-      return newLives;
-    });
-    createBubble(true);
-  };
-
-  // Create new bubble
   const createBubble = useCallback((fromCollision = false) => {
     const container = gameContainerRef.current;
     const containerRect = container.getBoundingClientRect();
     const minSize = 45;
     const maxSize = 90;
     const size = Math.random() * (maxSize - minSize) + minSize;
-    
-    // Calculate initial position
+
+    // Determine start position
     let startX, startY;
     if (fromCollision || !lastPopPosition.current.x) {
       startX = containerRect.width / 2 - size / 2;
@@ -83,12 +66,9 @@ const BubblePop = () => {
       startY = lastPopPosition.current.y - size / 2;
     }
 
-    // Determine direction (away from nearest spike)
-    const baseSpeed = 1 + Math.floor(score / 20) * 0.5;
-    const angle = fromCollision 
-      ? (startY < containerRect.height / 2 ? Math.PI / 2 : -Math.PI / 2) + (Math.random() * Math.PI/4 - Math.PI/8)
-      : Math.random() * Math.PI * 2;
-
+    // Random direction and speed
+    const baseSpeed = 2 + Math.floor(score / 20) * 0.5;
+    const angle = Math.random() * Math.PI * 2;
     const dx = Math.cos(angle) * baseSpeed;
     const dy = Math.sin(angle) * baseSpeed;
 
@@ -102,34 +82,47 @@ const BubblePop = () => {
     bubblesRef.current.push({ element: bubble, x: startX, y: startY, dx, dy, size });
   }, [score]);
 
-  // Handle bubble click
   const handleBubbleClick = useCallback((e) => {
-    if (!gameActive || !e.target.classList.contains('bubble')) {
-      if (gameActive) {
-        setScore(prev => Math.max(0, prev - 1));
-        setScreenFlash(true);
-        setTimeout(() => setScreenFlash(false), 100);
-      }
+    if (!gameActive) return;
+
+    const container = gameContainerRef.current;
+    const containerRect = container.getBoundingClientRect();
+    
+    if (!e.target.classList.contains('bubble')) {
+      setScore(prev => Math.max(0, prev - 1));
+      setScreenFlash(true);
+      setTimeout(() => setScreenFlash(false), 100);
       return;
     }
 
     const bubble = bubblesRef.current.find(b => b.element === e.target);
     const points = Math.max(1, Math.floor((90 - bubble.size) / 45 * 9));
-    
-    // Update score and position
+
     setScore(prev => prev + points);
-    lastPopPosition.current = { 
-      x: bubble.x + bubble.size / 2, 
-      y: bubble.y + bubble.size / 2 
+    lastPopPosition.current = {
+      x: e.clientX - containerRect.left,
+      y: e.clientY - containerRect.top
     };
 
-    // Animate and remove bubble
+    // Score pop
+    const scorePop = document.createElement('div');
+    scorePop.className = 'score-pop';
+    scorePop.textContent = `+${points}`;
+    scorePop.style.left = `${lastPopPosition.current.x}px`;
+    scorePop.style.top = `${lastPopPosition.current.y}px`;
+    container.appendChild(scorePop);
+    setTimeout(() => scorePop.remove(), 500);
+
+    // Remove bubble
     bubble.element.classList.add('popped');
-    setTimeout(() => bubble.element.remove(), 200);
+    setTimeout(() => {
+      bubble.element.remove();
+      bubblesRef.current = bubblesRef.current.filter(b => b !== bubble);
+    }, 200);
+
     createBubble();
   }, [gameActive, createBubble]);
 
-  // Start game
   const startGame = () => {
     setGameActive(true);
     setScore(0);
@@ -141,7 +134,22 @@ const BubblePop = () => {
     animationFrameId.current = requestAnimationFrame(gameLoop);
   };
 
-  // End game
+  const handleSpikeCollision = (bubble) => {
+    bubble.element.classList.add('crashed');
+    setTimeout(() => {
+      bubble.element.remove();
+      bubblesRef.current = bubblesRef.current.filter(b => b !== bubble);
+    }, 200);
+    
+    setLives(prev => {
+      const newLives = prev - 1;
+      if (newLives <= 0) endGame();
+      return newLives;
+    });
+    
+    createBubble(true);
+  };
+
   const endGame = () => {
     setGameActive(false);
     cancelAnimationFrame(animationFrameId.current);
@@ -151,7 +159,6 @@ const BubblePop = () => {
     }
   };
 
-  // Cleanup
   useEffect(() => {
     return () => cancelAnimationFrame(animationFrameId.current);
   }, []);

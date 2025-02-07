@@ -96,9 +96,12 @@ p {
 /* Hamburger button (mobile only) */
 .hamburger-button {
   display: block;
-  padding: 15px;
+  padding-top: 30px;
+  padding-left: 20px;
+  margin: 0px;
   font-size: 1.5rem;
   cursor: pointer;
+  width: 55px;
 }
 
 /* Sidebar – always dark */
@@ -120,6 +123,7 @@ p {
   padding: 20px;
   overflow-y: auto;
   z-index: 1000;
+  padding-bottom: 120px;
 }
 
 /* Desktop Sidebar: hidden on mobile */
@@ -133,6 +137,7 @@ p {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background: transparent;
 }
 
 
@@ -166,6 +171,7 @@ p {
   color: inherit;
   text-decoration: none;
   transition: background-color 0.2s ease, border-color 0.2s ease;
+  padding-top: 20px;
 }
 
 .menu-link:hover {
@@ -205,11 +211,14 @@ p {
 .close-button {
   font-size: 1.5rem;
   cursor: pointer;
+  padding-top: 10px;
 }
 
 /* Theme toggle switch styling */
 .theme-toggle-switch {
   cursor: pointer;
+  padding-top: 10px;
+  
 }
 
 /* Minimal page styling */
@@ -303,8 +312,8 @@ body.games-active .sidebar {
 /* Music Player Styles */
 .music-player-container {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 30px;
+  left: 20px;
   width: 50px;
   height: 50px;
   display: flex;
@@ -321,7 +330,7 @@ body.games-active .sidebar {
 }
 
 .music-player-container:hover {
-  width: 300px;
+  width: 250px;
   height: 120px;
   background: var(--ground-color);
   padding-left: 15px;
@@ -351,11 +360,13 @@ body.games-active .sidebar {
   height: 80px;
   margin-right: 12px;
   transform: scale(1.1);
+
 }
 
 .music-player-container:not(:hover) .song-image {
   transform: scale(1);
   transition: transform 0.5s ease-in-out;
+
 }
 
 .dot-lottie-container {
@@ -372,10 +383,11 @@ body.games-active .sidebar {
 
 .song-title {
   display: inline-block;
-  font-size: clamp(14px, 2vw, 18px);
+  font-size: clamp(14px, 2vw, 16px);
   color: #fff;
   font-weight: bold;
   white-space: nowrap;
+  padding-top: 20px;
 
   /* No animation by default */
   
@@ -396,9 +408,10 @@ body.games-active .sidebar {
 
 /* The container for the title should hide overflow */
 .song-title-wrapper {
-  width: 100%;
+  width: 85%;
   overflow: hidden;
   text-align: left;
+
 }
 
 /* Adjust table cell to allow wrapping (remove the hidden overflow) */
@@ -413,25 +426,26 @@ body.games-active .sidebar {
 
 .music-player-container:hover .song-title {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 0px;
   align-self: left;
-  padding: 0px;
-  width: 250px;
+  width: 150px;
+
+
   /* No scroll animation since text now wraps naturally */
 }
 
 .music-player-controls {
   display: flex;
   flex-direction: row;
-  gap: 8px;
   justify-content: left;
   align-items: center;
-  left: 0;
+  padding-bottom: 10px;
 }
 
 .music-player-container:hover .music-player-controls {
   display: flex;
   align-items: left;
+
 
 }
 
@@ -445,12 +459,12 @@ body.games-active .sidebar {
   font-size: 18px;
   color: #fff;
   transition: background 0.3s ease;
-  padding: 0 0px;
-  height: 30px;
-  flex: 1; /* both buttons take equal width */
+  height: 10px;
   text-align: center;
-  line-height: 30px;
+  line-height: 0px;
   max-width: 50px;
+  padding: 0px 10px;
+  padding-bottom: 20px;
 }
 .play-button:hover, .next-button:hover {
   background: #ffffff12;
@@ -459,13 +473,23 @@ body.games-active .sidebar {
 
 @media (min-width: 768px) {
   .music-player-container {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
   }
   .music-player-container:hover {
-    width: 350px;
+    width: 255px;
     height: 130px;
   }
+  .play-button, .next-button {
+    padding: 0px 10px;
+    padding-bottom: 20px;
+  }
+  .song-title-wrapper {
+    width: 90%;
+    overflow: hidden;
+    text-align: left;
+  }
+
 }
 
 .play-toggle-button {
@@ -485,6 +509,7 @@ body.games-active .sidebar {
   transition: background 0.3s ease;
   text-align: center;
   margin: 0;
+
 }
 
 .music-player-container:hover .play-toggle-button {
@@ -500,6 +525,7 @@ body.games-active .sidebar {
   color: #fff;
   font-size: 12px;
   text-align: left;
-  padding: 0px;
-
+  margin-bottom: 10px;
+  margin-top: 0px;
+  padding: 0;
 }

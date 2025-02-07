@@ -1,4 +1,4 @@
-/* Base styles */
+/* src/pages/games/bubble pop/BubblePop.css */
 .game-container {
     position: fixed;
     width: 100vw;
@@ -47,7 +47,7 @@
   
   /* Bubbles */
   .bubble {
-    position: absolute;
+
     border-radius: 50%;
     background-color: #333;
     cursor: pointer;
@@ -57,6 +57,7 @@
   
   .bubble.popped {
     animation: pop 0.2s forwards;
+    position: absolute;
   }
   
   .bubble.crashed {
