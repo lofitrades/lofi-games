@@ -16,6 +16,8 @@ const MusicPlayer = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isOverflow, setIsOverflow] = useState(false);
   const titleRef = useRef(null);
+  // New ref to block multiple next-song calls at the same time
+  const isNextSongLoading = useRef(false);
 
   useEffect(() => {
     async function loadSongs() {
@@ -77,22 +79,35 @@ const MusicPlayer = () => {
   };
 
   const playNextSong = () => {
-    if (songs.length === 0) return;
+    // Prevent multiple simultaneous invocations
+    if (isNextSongLoading.current) return;
+    isNextSongLoading.current = true;
+
+    if (songs.length === 0) {
+      isNextSongLoading.current = false;
+      return;
+    }
 
     let nextSong;
-    
+
     if (playedSongs.length >= songs.length) {
-      // Reset playlist when all songs played
+      // Reset playlist when all songs have been played
       const shuffled = [...songs].sort(() => Math.random() - 0.5);
+      // Avoid repeating the last played song at the start of the new shuffle
+      if (currentSong && shuffled.length > 1 && shuffled[0].name === currentSong.name) {
+        const temp = shuffled[0];
+        shuffled[0] = shuffled[1];
+        shuffled[1] = temp;
+      }
       setSongs(shuffled);
       setPlayedSongs([]);
       nextSong = shuffled[0];
     } else {
       // Find available unplayed songs
-      const availableSongs = songs.filter(song => 
+      const availableSongs = songs.filter(song =>
         !playedSongs.includes(song.name)
       );
-      
+
       if (availableSongs.length === 0) {
         // Fallback shuffle if somehow no available songs
         const shuffled = [...songs].sort(() => Math.random() - 0.5);
@@ -109,6 +124,7 @@ const MusicPlayer = () => {
 
     setPlayedSongs(prev => [...prev, nextSong.name]);
     playSong(nextSong);
+    isNextSongLoading.current = false;
   };
 
   const removeExtension = (filename) => {
@@ -186,9 +202,9 @@ const MusicPlayer = () => {
               </td>
             </tr>
             <tr>
-                <td>
-                    <p className="pPlayer">lofi-games</p>
-                </td>
+              <td>
+                <p className="pPlayer">lofi-games</p>
+              </td>
             </tr>
             <tr>
               <td>
