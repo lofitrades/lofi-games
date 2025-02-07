@@ -370,13 +370,14 @@ body.games-active .sidebar {
 
 .song-title {
   display: inline-block;
-  font-size: clamp(12px, 2vw, 16px);
+  font-size: clamp(14px, 2vw, 18px);
   color: #fff;
   font-weight: bold;
   white-space: nowrap;
   padding-right: 20px; /* 20px right padding */
   /* Delay the start slightly to mimic Spotify’s behavior */
   animation: marquee 8s linear infinite 1s;
+  padding-bottom: 0px;
 }
 
 /* Marquee keyframes: animate from full width to off-screen */
@@ -400,7 +401,6 @@ body.games-active .sidebar {
 /* Adjust table cell to allow wrapping (remove the hidden overflow) */
 .music-player-table td {
   position: relative;
-  overflow: visible;  /* Allow the wrapped text to display even if it exceeds cell width */
   width: 100%;
   max-width: 200px;   /* Adjust based on your design if needed */
   padding-right: 50px;
@@ -413,7 +413,7 @@ body.games-active .sidebar {
 }
 
 .music-player-controls {
-  display: none;
+  display: flex;
   flex-direction: row;
   gap: 8px;
   justify-content: left;
@@ -424,21 +424,29 @@ body.games-active .sidebar {
 .music-player-container:hover .music-player-controls {
   display: flex;
   align-items: left;
+
 }
+
+
 
 .play-button, .next-button {
-  background: var(--element-color);
+  background: transparent;
   border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
+  border-radius: 12px;
   cursor: pointer;
   font-size: 18px;
-  color: var(--game-bg);
+  color: #fff;
   transition: background 0.3s ease;
+  padding: 0 0px;
+  height: 30px;
+  flex: 1; /* both buttons take equal width */
+  text-align: center;
+  line-height: 30px;
+  max-width: 50px;
 }
-
 .play-button:hover, .next-button:hover {
-  background: var(--game-bg);
+  background: #ffffff12;
+  color: #fff;
 }
 
 @media (min-width: 768px) {
