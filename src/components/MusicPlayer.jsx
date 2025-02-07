@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { getSongs } from "../utils/dropbox";
 import { Howl } from "howler";
-
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 let globalPlayer = null;
 
@@ -36,7 +36,7 @@ const MusicPlayer = () => {
 
   const getDefaultImage = async () => {
     try {
-      const defaultImage = await getSongs("lofi/default-image.png");
+      const defaultImage = await getSongs("/lofi-games/default-image.png");
       return defaultImage[0].url;
     } catch (error) {
       console.error("Error fetching default image:", error);
@@ -132,14 +132,16 @@ const MusicPlayer = () => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
-        backgroundImage: isHovered && currentSong ? `linear-gradient(rgba(0, 0, 0, 0.90), rgba(0, 0, 0, 0.75)), url(${currentSong.imageUrl})` : "none",
+        backgroundImage: isHovered && currentSong ? `linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url(${currentSong.imageUrl})` : "none",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-
-        <img src={currentSong ? currentSong.imageUrl : "/lofi-games/default-image.png"} alt="Song" className="song-image" />
-
+        <img
+        src={currentSong ? currentSong.imageUrl : "/lofi-games/default-image.png"}
+        alt="Song"
+        className="song-image"
+        />
       {!isHovered && (
         <button onClick={togglePlay} className="play-toggle-button">
           {isPlaying ? "❚❚" : "▶"}
@@ -162,7 +164,7 @@ const MusicPlayer = () => {
                 <div className="music-player-controls">
                   <button onClick={togglePlay} disabled={songs.length === 0} className="play-button">
                     {isPlaying ? "❚❚" : "▶"}
-                  </button>
+                    </button>
                   <button onClick={playNextSong} disabled={songs.length === 0} className="next-button">
                     ▶▶
                   </button>
