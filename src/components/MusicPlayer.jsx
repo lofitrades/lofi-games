@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { getSongs } from "../utils/dropbox";
 import { Howl } from "howler";
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+
 
 let globalPlayer = null;
 
