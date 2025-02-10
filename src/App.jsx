@@ -8,7 +8,8 @@ import Contact from "./pages/Contact";
 import Game1 from "./pages/games/artic run/artic run";
 import Game2 from "./pages/games/bubble pop/bubble pop";
 import MusicPlayer from "./components/MusicPlayer";
-
+import GameGrid from './components/GameGrid/GameGrid';
+import GamePage from './components/GameGrid/GamePage';
 
 function App() {
   useEffect(() => {
@@ -77,9 +78,12 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/games/artic run/artic run" element={<Game1 />} />
             <Route path="/games/bubble pop/bubble pop" element={<Game2 />} />
+
+            <Route path="/game/:gameName" element={<GamePage />} />
           </Routes>
         </div>
       </div>
+      
     </Router>
   );
 }

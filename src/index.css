@@ -1,5 +1,8 @@
 /* src/index.css */
 
+
+
+
 /* Reset and basic styles */
 * {
   margin: 0;
@@ -214,6 +217,12 @@ p {
   padding-top: 10px;
 }
 
+.button {
+  padding: 10px 10 px;
+  margin-left: 30px;
+  font-size: 1.5rem;
+}
+
 /* Theme toggle switch styling */
 .theme-toggle-switch {
   cursor: pointer;
@@ -274,6 +283,7 @@ p {
 .sidebar a.active,
 .sidebar-desktop a.active {
   text-decoration: underline;
+  font-style: italic;
 }
 
 /* When a game page is active, override the left margin of the content */
@@ -429,8 +439,6 @@ body.games-active .sidebar {
   margin-bottom: 0px;
   align-self: left;
   width: 150px;
-
-
   /* No scroll animation since text now wraps naturally */
 }
 
@@ -466,10 +474,7 @@ body.games-active .sidebar {
   padding: 0px 10px;
   padding-bottom: 20px;
 }
-.play-button:hover, .next-button:hover {
-  background: #ffffff12;
-  color: #fff;
-}
+
 
 @media (min-width: 768px) {
   .music-player-container {
@@ -494,7 +499,7 @@ body.games-active .sidebar {
 
 .play-toggle-button {
   position: absolute;
-  background: rgba(0, 0, 0, 0.5);
+
   border: none;
   border-radius: 20%;
   padding: 0;
@@ -516,9 +521,6 @@ body.games-active .sidebar {
   display: none;
 }
 
-.play-toggle-button:hover {
-  background: rgba(0, 0, 0, 0.7);
-}
 
 
 .pPlayer {

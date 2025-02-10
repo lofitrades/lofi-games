@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import ThemeToggle from "./ThemeToggle";
 import { FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
 
-
 // Dynamically import game pages
 const gamePages = import.meta.glob("/src/pages/games/*/*.{jsx,tsx}");
 
@@ -38,6 +37,13 @@ const Sidebar = () => {
       document.body.classList.remove("games-active-sidebar-opened");
     }
   }, [isGamesActive, isOpen]);
+
+  // Close sidebar on larger screens when a game page is active
+  useEffect(() => {
+    if (isGamesActive && window.innerWidth >= 768) {
+      setIsOpen(false); // Close sidebar for large screens on game page
+    }
+  }, [isGamesActive]);
 
   // Framer Motion variants for sidebar slide in/out
   const sidebarVariants = {
@@ -155,9 +161,7 @@ const Sidebar = () => {
                   <FaChevronDown
                     className="dropdown-arrow"
                     style={{
-                      transform: gamesDropdown
-                        ? "rotate(180deg)"
-                        : "rotate(0deg)",
+                      transform: gamesDropdown ? "rotate(180deg)" : "rotate(0deg)",
                       transition: "transform 0.2s ease",
                     }}
                   />
@@ -275,8 +279,6 @@ const Sidebar = () => {
               </NavLink>
             </li>
           </ul>
-
-
         </motion.nav>
       )}
     </>

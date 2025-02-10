@@ -1,0 +1,172 @@
+/* src/components/GameGrid/GameGrid.css */
+
+
+
+/* Search, Sorting, and View Toggle */
+input[type="text"],
+select {
+    background-color: var(--game-bg);
+    color: var(--element-color);
+    font-size: 1.2rem;
+    font-family: "Poppins", sans-serif;
+    border-radius: 4px;
+    border: 1px solid var(--element-color);
+    transition: border 0.3s ease;
+    margin-left: 30px;
+    margin-top: 10px;
+    margin-right: 30px;
+    width: 85%;
+    padding: 5px 10px;
+}
+
+input[type="text"]:focus,
+select:focus {
+
+    border-color: var(--element-color);
+    outline: none;
+    font-size: 1.2rem;
+    font-family: "Poppins", sans-serif;
+}
+
+button {
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    border: 1px solid var(--element-color);
+    cursor: pointer;
+    background-color: var(--game-bg);
+    color: var(--element-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin-left: 30px;
+    width: 85%;
+    font-family: "Poppins", sans-serif;
+}
+
+
+/* Grid and List View */
+.grid-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+    padding: 30px;
+}
+
+.game-card {
+    position: relative;
+    cursor: pointer;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.game-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.game-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.game-card-text {
+    padding: 1rem;
+    text-align: center;
+    font-weight: bold;
+    color: var(--element-color);
+}
+
+/* List View */
+.list-view {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    cursor: pointer;
+    padding-left: 30px;
+    padding-top: 30px;
+
+}
+
+.list-view:hover {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    cursor: pointer;
+}
+
+.list-view .game-card {
+    position: relative;
+    cursor: pointer;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.list-view .game-card:hover {
+    background-color: var(--element-color);
+    color: red;
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    position: absolute; /* Position relative to the parent (game-grid-container) */
+    bottom: -10px; /* Position the spinner 60px below the grid (you can adjust this value) */
+    left: 50%; /* Move the spinner to the horizontal center */
+    transform: translateX(-50%); /* Offset the spinner by 50% of its width to truly center it */
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border: 5px solid var(--element-color);
+    border-radius: 50%;
+    border-top: 5px solid transparent;
+    animation: spin 1s linear infinite;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .loading-spinner {
+        width: 40px; /* Adjust the size for smaller screens */
+        height: 40px; /* Adjust the size for smaller screens */
+        bottom: -50px; /* Adjust distance from the bottom */
+    }
+}
+
+
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .grid-view {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    }
+
+    button {
+        padding: 0.4rem 0.8rem;
+    }
+
+    input[type="text"],
+    select {
+        font-size: 0.9rem;
+        padding: 0.4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .grid-view {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+
+    .game-card img {
+        height: 180px;
+    }
+}

@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import './BubblePop.css';
 
+// Export a creation date in ISO format.
+export const createdAt = '2024-01-01'; // YYYY-MM-DD (or full ISO if needed)
+
 const BubblePop = () => {
   const [score, setScore] = useState(0);
   const [lives, setLives] = useState(3);
@@ -12,6 +15,11 @@ const BubblePop = () => {
   const lastPopPosition = useRef({ x: 0, y: 0 });
   const animationFrameId = useRef(null);
 
+  // Game constants
+  const SPIKE_HEIGHT = 20;
+  const BASE_SPEED = 200000000;
+  const GAME_LOOP_INTERVAL = 1000 / 0.60; // 60 FPS
+
   useEffect(() => {
     const savedScore = localStorage.getItem('bubbleHighScore') || 0;
     setHighestScore(parseInt(savedScore));
@@ -22,28 +30,27 @@ const BubblePop = () => {
 
     const container = gameContainerRef.current;
     const containerRect = container.getBoundingClientRect();
-    const spikeHeight = 20;
 
-    bubblesRef.current.forEach((bubble, index) => {
-      let newX = bubble.x + bubble.dx;
-      let newY = bubble.y + bubble.dy;
+    // Update bubble positions
+    bubblesRef.current.forEach((bubble) => {
+      // Update position
+      bubble.x += bubble.dx;
+      bubble.y += bubble.dy;
 
       // Horizontal boundaries
-      if (newX < 0 || newX > containerRect.width - bubble.size) {
+      if (bubble.x < 0 || bubble.x > containerRect.width - bubble.size) {
         bubble.dx *= -1;
-        newX = Math.max(0, Math.min(newX, containerRect.width - bubble.size));
+        bubble.x = Math.max(0, Math.min(bubble.x, containerRect.width - bubble.size));
       }
 
-      // Vertical collision
-      if (newY < spikeHeight || newY > containerRect.height - bubble.size - spikeHeight) {
+      // Vertical collision detection
+      if (bubble.y < SPIKE_HEIGHT || bubble.y > containerRect.height - bubble.size - SPIKE_HEIGHT) {
         handleSpikeCollision(bubble);
         return;
       }
 
-      // Update position
-      bubble.x = newX;
-      bubble.y = newY;
-      bubble.element.style.transform = `translate(${newX}px, ${newY}px)`;
+      // Update visual position
+      bubble.element.style.transform = `translate(${bubble.x}px, ${bubble.y}px)`;
     });
 
     animationFrameId.current = requestAnimationFrame(gameLoop);
@@ -66,11 +73,11 @@ const BubblePop = () => {
       startY = lastPopPosition.current.y - size / 2;
     }
 
-    // Random direction and speed
-    const baseSpeed = 2 + Math.floor(score / 20) * 0.5;
+    // Calculate random direction and speed
+    const speed = BASE_SPEED + Math.floor(score*1000) * 10000000;
     const angle = Math.random() * Math.PI * 2;
-    const dx = Math.cos(angle) * baseSpeed;
-    const dy = Math.sin(angle) * baseSpeed;
+    const dx = Math.cos(angle) * speed * 100000;
+    const dy = Math.sin(angle) * speed * 100000;
 
     const bubble = document.createElement('div');
     bubble.className = 'bubble';
@@ -84,7 +91,7 @@ const BubblePop = () => {
 
   const handleBubbleClick = useCallback((e) => {
     if (!gameActive) return;
-
+    
     const container = gameContainerRef.current;
     const containerRect = container.getBoundingClientRect();
     
@@ -98,6 +105,7 @@ const BubblePop = () => {
     const bubble = bubblesRef.current.find(b => b.element === e.target);
     const points = Math.max(1, Math.floor((90 - bubble.size) / 45 * 9));
 
+    // Update score and position
     setScore(prev => prev + points);
     lastPopPosition.current = {
       x: e.clientX - containerRect.left,

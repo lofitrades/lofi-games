@@ -83,10 +83,10 @@
   
   .lives-display {
     position: fixed;
-    top: 1rem;
-    right: 1rem;
+    top: 30px;
+    right: 30px;
     font-size: 1.5rem;
-    color: var(--danger-color);
+    color: red;
     z-index: 2;
   }
   
