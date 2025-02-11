@@ -1,4 +1,4 @@
-// src/pages/games/bubble pop/Bubble Pop.jsx
+// src/pages/games/bubble pop/BubblePop.jsx
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useTheme } from '../../../context/ThemeContext';
 
@@ -127,8 +127,8 @@ const BubblePop = () => {
           }
           newBubble = { ...newBubble, x, y, angle, bounced };
 
-          if (y - size / 2 < 20 || y + size / 2 > window.innerHeight - 20) {
-            collisionSideRef.current = y - size / 2 < 20 ? 'top' : 'bottom';
+          if (y - size / 2 < 15 || y + size / 2 > window.innerHeight - 65) {
+            collisionSideRef.current = y - size / 2 < 15 ? 'top' : 'bottom';
             playSound(crashAudioRef);
             setLives(prev => {
               const newLives = prev - 1;
@@ -215,9 +215,6 @@ const BubblePop = () => {
           setMuted(prev => !prev);
         }}
         style={{
-          position: 'absolute',
-          top: '10px',
-          right: '10px',
           zIndex: 1000
         }}
       >
@@ -270,7 +267,7 @@ const BubblePop = () => {
 
       {gameState === "gameover" && (
         <div className="overlay">
-          <h1>Game Over</h1>
+          <h5>Game Over</h5>
           <p>Score: {score}</p>
           <p>High Score: {highScore}</p>
           {showRestartButton && (

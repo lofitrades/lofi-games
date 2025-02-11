@@ -102,6 +102,7 @@ p {
   font-size: 1.5rem;
   cursor: pointer;
   width: 55px;
+  z-index: 1000;
 }
 
 /* Sidebar – always dark */
@@ -312,14 +313,14 @@ body.games-active .sidebar {
 /* Music Player Styles */
 .music-player-container {
   position: fixed;
-  bottom: 30px;
-  left: 20px;
-  width: 50px;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 14px;
+  border-radius: 0px;
   overflow: hidden;
   /* Use a slightly longer transition when unhovering */
   transition: all 0.3s ease-out;
@@ -330,14 +331,17 @@ body.games-active .sidebar {
 }
 
 .music-player-container:hover {
-  width: 250px;
-  height: 120px;
+  width: 100%;
+  height: 200px;
   background: var(--ground-color);
-  padding-left: 15px;
+  padding-left: 0px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  border-radius: 16px;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
   /* Faster transition on hover */
   transition: all 0.3s ease-in-out;
   cursor: pointer;
@@ -348,7 +352,7 @@ body.games-active .sidebar {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 12px;
+  
   position: absolute;
   transition: transform 0.5s ease-in-out;
   border: 0px solid #fff;
@@ -358,8 +362,9 @@ body.games-active .sidebar {
   position: relative;
   width: 80px;
   height: 80px;
-  margin-right: 12px;
+
   transform: scale(1.1);
+  margin-left: 20px;
 
 }
 
@@ -473,12 +478,17 @@ body.games-active .sidebar {
 
 @media (min-width: 768px) {
   .music-player-container {
-    width: 60px;
-    height: 60px;
+    width: 100%;
+    height: 50px;
+    border-radius: 0px;
   }
   .music-player-container:hover {
-    width: 255px;
-    height: 130px;
+    width: 100%;
+    height: 300px;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
   }
   .play-button, .next-button {
     padding: 0px 10px;
