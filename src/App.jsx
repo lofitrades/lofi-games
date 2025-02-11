@@ -5,8 +5,8 @@ import Sidebar from "./components/Sidebar";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-import Game1 from "./pages/games/artic run/artic run";
-import Game2 from "./pages/games/bubble pop/bubble pop";
+import ArticRun from "./pages/games/artic run/artic run";
+import BubblePop from "./pages/games/bubble pop/bubble pop";
 import MusicPlayer from "./components/MusicPlayer";
 import GameGrid from './components/GameGrid/GameGrid';
 import GamePage from './components/GameGrid/GamePage';
@@ -36,14 +36,7 @@ function App() {
     };
     document.addEventListener("touchmove", preventPinch, { passive: false });
 
-    // Disable Developer Tools (F12 and Ctrl+Shift+I)
-    // const blockDevTools = (event) => {
-    //   if (event.key === "F12" || (event.ctrlKey && event.shiftKey && event.key === "I")) {
-    //     event.preventDefault();
-    //   }
-    // };
-    // window.addEventListener("keydown", blockDevTools);
-    
+    // Disable Ctrl scroll zoom
     const disableCtrlScroll = (event) => {
       if (event.ctrlKey) {
         event.preventDefault();
@@ -51,23 +44,18 @@ function App() {
     };
     window.addEventListener("wheel", disableCtrlScroll, { passive: false });
 
-
     // Cleanup event listeners on unmount
     return () => {
       document.body.style.userSelect = "auto";
       document.removeEventListener("contextmenu", disableContextMenu);
       window.removeEventListener("keydown", disableZoom);
       document.removeEventListener("touchmove", preventPinch);
-      //window.removeEventListener("keydown", blockDevTools);
       window.removeEventListener("wheel", disableCtrlScroll);
-
     };
   }, []);
 
   return (
-
     <Router basename="/lofi-games">
-      
       <div className="app-container">
         <Sidebar />
         <MusicPlayer /> {/* Global Music Player */}
@@ -76,14 +64,12 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/games/artic run/artic run" element={<Game1 />} />
-            <Route path="/games/bubble pop/bubble pop" element={<Game2 />} />
-
+            <Route path="/games/artic-run/artic-run" element={<ArticRun />} />
+            <Route path="/games/bubble-pop/bubble-pop" element={<BubblePop />} />
             <Route path="/game/:gameName" element={<GamePage />} />
           </Routes>
         </div>
       </div>
-      
     </Router>
   );
 }
