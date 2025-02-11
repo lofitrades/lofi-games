@@ -16,6 +16,9 @@ import missSound from './sounds/miss.wav';
 
 import './BubblePop.css';
 
+// Export a creation date in ISO format.
+export const createdAt = '2025-01-01'; // YYYY-MM-DD (or full ISO if needed)
+
 const BubblePop = () => {
   // Game states
   const { theme } = useTheme();
